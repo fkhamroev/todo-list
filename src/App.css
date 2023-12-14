@@ -1,0 +1,126 @@
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-list {
+    background: #323232;
+    width: 540px;
+    border-radius: 30px;
+    text-align: center;
+    margin-top: 25px;
+    padding-bottom: 40px;
+}
+
+.main-title {
+    font-size: 45px;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.main-div {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 25px;
+    align-items: center;
+}
+
+
+.main-input,
+.main-num {
+    background: rgba(209, 209, 209, 0.693);
+    border-radius: 3px;
+    padding: 8px;
+    border: none;
+    outline: none;
+}
+
+.main-num {
+    width: 50px;
+}
+
+.main-input::placeholder {
+    font-family: "Montserrat";
+    font-size: 15px;
+    color: black;
+}
+
+.main-btn {
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    background: transparent;
+    max-width: 100px;
+    width: 100%;
+    padding: 10px;
+    color: #FFD700;
+    font-size: 20px;
+    font-weight: 700;
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+}
+
+.main-btn:hover {
+    background: #000;
+    transform: scale(1.1);
+}
+
+.main-ul {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.main-li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.main-li::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: #FFD700;
+}
+
+.main-li div {
+    display: flex;
+    align-items: center;
+}
+
+.main-number {
+    color: black;
+    background: #FFD700;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.main-name {
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 15px;
+}
+
+.main-close {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.main-close:hover {
+    transform: scale(1.2);
+}
