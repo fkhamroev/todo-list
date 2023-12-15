@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Modal } from "./Components/Modal";
 
@@ -51,18 +51,34 @@ function App() {
     setItemIndexToEdit(null);
   };
 
+  useEffect(() => {
+    if (itemIndexToEdit !== null) {
+      const itemToEdit = items[itemIndexToEdit];
+      setEditedTitle(itemToEdit.title || ""); // Устанавливаем текущий title в input для редактирования
+      setEditedQuantity(itemToEdit.quantity || ""); // Устанавливаем текущее quantity в input для редактирования
+    }
+  }, [itemIndexToEdit, items]);
+
   return (
     <>
       <section className="main">
         <div className="main-list">
           <h1 className="main-title">Shopping List</h1>
-          <div className="main-div">
+          <form
+            action=""
+            className="main-div"
+            onSubmit={(e) => {
+              e.preventDefault();
+              addItem();
+            }}
+          >
             <input
               type="text"
               className="main-input"
               placeholder="Title..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              required
             />
             <input
               type="number"
@@ -70,11 +86,11 @@ function App() {
               placeholder="14"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
+              required
             />
-            <button className="main-btn" onClick={addItem}>
-              Add
-            </button>
-          </div>
+            <input type="submit" className="main-btn" value="Add" />
+          </form>
+
           <ul className="main-ul">
             {items.map((item, index) => (
               <li className="main-li" key={index}>
@@ -93,7 +109,6 @@ function App() {
                     className="main-close"
                     onClick={() => setItemIndexToDelete(index)}
                   >
-                    {/* <img src="../src/assets/svg/Vector.svg" alt="" /> */}
                     X
                   </button>
                 </div>
@@ -121,13 +136,21 @@ function App() {
       <Modal active={itemIndexToEdit !== null} setActive={closeModal}>
         <div className="modal-question">
           <h3 className="modal-question">Enter data you want edit</h3>
-          <div className="modal-edit">
+          <form
+            action=""
+            className="modal-edit"
+            onSubmit={(e) => {
+              e.preventDefault();
+              editItem();
+            }}
+          >
             <input
               type="text"
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
               placeholder="Edit title"
               className="edit-input"
+              required
             />
             <input
               type="number"
@@ -135,18 +158,14 @@ function App() {
               onChange={(e) => setEditedQuantity(e.target.value)}
               placeholder="Edit quantity"
               className="edit-input"
+              required
             />
-            <button className="edit-save" onClick={editItem}>
-              Save
-            </button>
+
+            <input type="submit" className="edit-save" value="Save" />
             <button className="edit-btn" onClick={closeModal}>
-              <img
-                src="../src/assets/svg/Vector.svg"
-                alt=""
-                className="edit-close"
-              />
+              Х
             </button>
-          </div>
+          </form>
         </div>
       </Modal>
     </>

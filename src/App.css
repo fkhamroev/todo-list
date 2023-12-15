@@ -1,3 +1,10 @@
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
 .main {
     display: flex;
     align-items: center;
@@ -36,9 +43,7 @@
     outline: none;
 }
 
-.main-num {
-    width: 50px;
-}
+
 
 .main-input::placeholder {
     font-family: "Montserrat";
@@ -68,7 +73,8 @@
 .main-ul {
     display: flex;
     flex-direction: column;
-    margin-top: 50px;
+    margin-top: 120px;
+
 }
 
 .main-li {
@@ -114,17 +120,20 @@
 }
 
 .main-close {
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
     transition: 300ms;
+    background: red;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.main-close img {
-    height: 20px;
-    width: 20px;
-}
 
 .main-close:hover {
     transform: scale(1.2);
@@ -240,19 +249,19 @@
     cursor: pointer;
 }
 
-.edit-close {
+.edit-btn {
     position: absolute;
     top: 20px;
     right: 30px;
-    height: 25px;
     background: red;
     padding: 5px;
-    border-radius: 8px;
-}
-
-.edit-btn {
-    background: transparent;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
-
+    color: white;
+    font-size: 16px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
