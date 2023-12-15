@@ -121,6 +121,11 @@
     transition: 300ms;
 }
 
+.main-close img {
+    height: 20px;
+    width: 20px;
+}
+
 .main-close:hover {
     transform: scale(1.2);
 }
