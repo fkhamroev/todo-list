@@ -1,10 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
+import { Modal } from "./Components/Modal";
 
 function App() {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [itemIndexToDelete, setItemIndexToDelete] = useState(null);
+  const [itemIndexToEdit, setItemIndexToEdit] = useState(null);
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedQuantity, setEditedQuantity] = useState("");
 
   const addItem = () => {
     if (title && quantity) {
@@ -18,15 +23,32 @@ function App() {
     }
   };
 
-  const removeItem = (index) => {
-    const shouldDelete = window.confirm(
-      "Are you sure you want to delete this item?"
-    );
-    if (shouldDelete) {
+  const removeItem = () => {
+    if (itemIndexToDelete !== null) {
       const updatedItems = [...items];
-      updatedItems.splice(index, 1);
+      updatedItems.splice(itemIndexToDelete, 1);
       setItems(updatedItems);
+      setItemIndexToDelete(null);
     }
+  };
+
+  const editItem = () => {
+    if (itemIndexToEdit !== null && editedTitle && editedQuantity) {
+      const updatedItems = [...items];
+      updatedItems[itemIndexToEdit] = {
+        title: editedTitle,
+        quantity: editedQuantity,
+      };
+      setItems(updatedItems);
+      setItemIndexToEdit(null);
+      setEditedTitle("");
+      setEditedQuantity("");
+    }
+  };
+
+  const closeModal = () => {
+    setItemIndexToDelete(null);
+    setItemIndexToEdit(null);
   };
 
   return (
@@ -60,17 +82,72 @@ function App() {
                   <div className="main-number">{item.quantity}</div>
                   <h3 className="main-name">{item.title}</h3>
                 </div>
-                <button
-                  className="main-close"
-                  onClick={() => removeItem(index)}
-                >
-                  <img src="../src/assets/svg/Vector.svg" alt="" />
-                </button>
+                <div className="main-btns">
+                  <button
+                    className="main-edit"
+                    onClick={() => setItemIndexToEdit(index)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="main-close"
+                    onClick={() => setItemIndexToDelete(index)}
+                  >
+                    <img src="../src/assets/svg/Vector.svg" alt="" />
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
         </div>
       </section>
+      <Modal active={itemIndexToDelete !== null} setActive={closeModal}>
+        <div className="modal-question">
+          <h3 className="modal-question">Are you sure to delete?</h3>
+          <div className="modal-desc">
+            If you delete this, you will not be able to restore this data.
+          </div>
+          <div className="modal-btns">
+            <button className="modal-btn" onClick={removeItem}>
+              Yes
+            </button>
+            <button className="modal-btn" onClick={closeModal}>
+              No
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <Modal active={itemIndexToEdit !== null} setActive={closeModal}>
+        <div className="modal-question">
+          <h3 className="modal-question">Enter data you want edit</h3>
+          <div className="modal-edit">
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+              placeholder="Edit title"
+              className="edit-input"
+            />
+            <input
+              type="number"
+              value={editedQuantity}
+              onChange={(e) => setEditedQuantity(e.target.value)}
+              placeholder="Edit quantity"
+              className="edit-input"
+            />
+            <button className="edit-save" onClick={editItem}>
+              Save
+            </button>
+            <button className="edit-btn" onClick={closeModal}>
+              <img
+                src="../src/assets/svg/Vector.svg"
+                alt=""
+                className="edit-close"
+              />
+            </button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }
