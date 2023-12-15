@@ -93,7 +93,8 @@ function App() {
                     className="main-close"
                     onClick={() => setItemIndexToDelete(index)}
                   >
-                    <img src="../src/assets/svg/Vector.svg" alt="" />
+                    {/* <img src="../src/assets/svg/Vector.svg" alt="" /> */}
+                    X
                   </button>
                 </div>
               </li>
