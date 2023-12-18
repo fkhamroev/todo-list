@@ -1,25 +1,51 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
 import { Modal } from "./Components/Modal";
 
 function App() {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState("");
-  const [quantity, setQuantity] = useState("");
   const [itemIndexToDelete, setItemIndexToDelete] = useState(null);
   const [itemIndexToEdit, setItemIndexToEdit] = useState(null);
   const [editedTitle, setEditedTitle] = useState("");
-  const [editedQuantity, setEditedQuantity] = useState("");
+
+  const [isAscendingOrder, setIsAscendingOrder] = useState(true);
+  const [doneItems, setDoneItems] = useState([]);
+
+  const changeOrder = () => {
+    const sortedItems = [...items];
+    if (isAscendingOrder) {
+      sortedItems.sort((a, b) => a.title.localeCompare(b.title));
+    } else {
+      sortedItems.sort((a, b) => b.title.localeCompare(a.title));
+    }
+
+    const reorderedItems = sortedItems.map((item, index) => {
+      const newItem = { ...item, index };
+      return newItem;
+    });
+
+    setItems(reorderedItems);
+    setIsAscendingOrder(!isAscendingOrder);
+  };
+
+  const moveToDone = (index) => {
+    const itemToMove = items[index];
+    if (!doneItems.includes(itemToMove)) {
+      setDoneItems([...doneItems, itemToMove]);
+      setItems(items.filter((_, i) => i !== index));
+    }
+  };
 
   const addItem = () => {
-    if (title && quantity) {
+    if (title) {
       const newItem = {
         title: title,
-        quantity: quantity,
       };
       setItems([...items, newItem]);
       setTitle("");
-      setQuantity("");
     }
   };
 
@@ -33,16 +59,14 @@ function App() {
   };
 
   const editItem = () => {
-    if (itemIndexToEdit !== null && editedTitle && editedQuantity) {
+    if (itemIndexToEdit !== null && editedTitle) {
       const updatedItems = [...items];
       updatedItems[itemIndexToEdit] = {
         title: editedTitle,
-        quantity: editedQuantity,
       };
       setItems(updatedItems);
       setItemIndexToEdit(null);
       setEditedTitle("");
-      setEditedQuantity("");
     }
   };
 
@@ -54,8 +78,7 @@ function App() {
   useEffect(() => {
     if (itemIndexToEdit !== null) {
       const itemToEdit = items[itemIndexToEdit];
-      setEditedTitle(itemToEdit.title || ""); // Устанавливаем текущий title в input для редактирования
-      setEditedQuantity(itemToEdit.quantity || ""); // Устанавливаем текущее quantity в input для редактирования
+      setEditedTitle(itemToEdit.title || "");
     }
   }, [itemIndexToEdit, items]);
 
@@ -64,57 +87,79 @@ function App() {
       <section className="main">
         <div className="main-list">
           <h1 className="main-title">Shopping List</h1>
-          <form
-            action=""
-            className="main-div"
-            onSubmit={(e) => {
-              e.preventDefault();
-              addItem();
-            }}
-          >
-            <input
-              type="text"
-              className="main-input"
-              placeholder="Title..."
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-            <input
-              type="number"
-              className="main-num"
-              placeholder="14"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              required
-            />
-            <input type="submit" className="main-btn" value="Add" />
-          </form>
+          <div className="main-div">
+            <form
+              action=""
+              className="main-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                addItem();
+              }}
+            >
+              <input
+                type="text"
+                className="main-input"
+                placeholder="Title..."
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
 
-          <ul className="main-ul">
-            {items.map((item, index) => (
-              <li className="main-li" key={index}>
-                <div>
-                  <div className="main-number">{item.quantity}</div>
-                  <h3 className="main-name">{item.title}</h3>
-                </div>
-                <div className="main-btns">
-                  <button
-                    className="main-edit"
-                    onClick={() => setItemIndexToEdit(index)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="main-close"
-                    onClick={() => setItemIndexToDelete(index)}
-                  >
-                    X
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+              <input type="submit" className="main-btn" value="Add" />
+            </form>
+            <button className="main-order " onClick={changeOrder}>
+              <FontAwesomeIcon icon={faChevronUp} />
+              <FontAwesomeIcon icon={faChevronDown} />
+            </button>
+          </div>
+          <section className="main-lists">
+            <ul className="main-ul">
+              <h1 className="main-sub">Tasks to do</h1>
+              {items.map((item, index) => (
+                <li className="main-li" key={index}>
+                  <p className="li-order" onClick={() => changeOrder(index)}>
+                    {index + 1}
+                  </p>
+
+                  <div>
+                    <h3 className="main-name">{item.title}</h3>
+                  </div>
+                  <div className="main-btns">
+                    <button
+                      className="main-edit"
+                      onClick={() => setItemIndexToEdit(index)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="main-donebtn"
+                      onClick={() => moveToDone(index)}
+                    >
+                      Done
+                    </button>
+                    <button
+                      className="main-close"
+                      onClick={() => setItemIndexToDelete(index)}
+                    >
+                      X
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="line"></div>
+            <ul className="main-ul">
+              <h1 className="main-sub">Done tasks</h1>
+              {doneItems.map((item, index) => (
+                <li className="main-lidone" key={index}>
+                  <p className="li-order">{index + 1}</p>
+                  <div>
+                    <h3 className="main-name">{item.title}</h3>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
       </section>
       <Modal active={itemIndexToDelete !== null} setActive={closeModal}>
@@ -149,14 +194,6 @@ function App() {
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
               placeholder="Edit title"
-              className="edit-input"
-              required
-            />
-            <input
-              type="number"
-              value={editedQuantity}
-              onChange={(e) => setEditedQuantity(e.target.value)}
-              placeholder="Edit quantity"
               className="edit-input"
               required
             />

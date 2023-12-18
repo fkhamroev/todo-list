@@ -13,7 +13,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .main-list {
     background: #323232;
-    width: 50vw;
+    width: 70vw;
     border-radius: 30px;
     text-align: center;
     margin-top: 25px;
@@ -28,22 +28,37 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .main-div {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     margin-top: 25px;
     align-items: center;
 }
 
+.main-form {
+    display: flex;
+}
 
-.main-input,
-.main-num {
+.main-order {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    background: transparent;
+    outline: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+
+.main-input {
     background: rgba(209, 209, 209, 0.693);
     border-radius: 3px;
     padding: 8px;
     border: none;
     outline: none;
+    margin-right: 25px;
+    max-width: 300px;
+    width: 100%;
 }
-
-
 
 .main-input::placeholder {
     font-family: "Montserrat";
@@ -55,9 +70,8 @@ input[type="number"]::-webkit-inner-spin-button {
     border: 2px solid #FFD700;
     border-radius: 8px;
     background: transparent;
-    max-width: 100px;
-    width: 100%;
-    padding: 10px;
+    width: 120px;
+    padding: 4px;
     color: #FFD700;
     font-size: 20px;
     font-weight: 700;
@@ -70,14 +84,28 @@ input[type="number"]::-webkit-inner-spin-button {
     transform: scale(1.1);
 }
 
+.main-lists {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 120px;
+    position: relative;
+    height: 100%;
+}
+
 .main-ul {
     display: flex;
     flex-direction: column;
-    margin-top: 120px;
+    width: 50%;
 
 }
 
-.main-li {
+.main-done {
+    width: 50%;
+}
+
+
+.main-li,
+.main-lidone {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -85,9 +113,23 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0 auto;
     position: relative;
     margin-bottom: 25px;
+    margin-top: 20px;
 }
 
-.main-li::after {
+.main-lidone {
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+.main-lidone .main-name {
+    text-decoration: line-through;
+
+}
+
+
+.main-li::after,
+.main-lidone::after {
     content: '';
     position: absolute;
     bottom: -10px;
@@ -102,7 +144,7 @@ input[type="number"]::-webkit-inner-spin-button {
     align-items: center;
 }
 
-.main-number {
+.li-order {
     color: black;
     background: #FFD700;
     font-weight: 700;
@@ -196,6 +238,7 @@ input[type="number"]::-webkit-inner-spin-button {
     align-items: center;
 }
 
+.main-donebtn,
 .main-edit {
     background: transparent;
     outline: none;
@@ -211,9 +254,18 @@ input[type="number"]::-webkit-inner-spin-button {
     transition: all 0.5s;
 }
 
+.main-donebtn:hover,
 .main-edit:hover {
     transform: scale(1.1);
 }
+
+.main-edit {
+    border: 3px solid #FFD700;
+}
+
+
+
+
 
 .modal-edit {
     display: flex;
@@ -264,4 +316,15 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.line {
+    height: 100%;
+    width: 2px;
+    background: white;
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
